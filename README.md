@@ -63,8 +63,8 @@ def generate_empathy(text, emotion):
   return response.split("공감 메시지:")[-1].strip()
 
 # 사용 예시
-print(generate_empathy("오늘 너무 지치고 힘들었어.", "슬픔"))```
-
+print(generate_empathy("오늘 너무 지치고 힘들었어.", "슬픔"))
+```
 🛠️ 학습 환경
 GPU: NVIDIA RTX 4060
 
