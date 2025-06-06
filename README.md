@@ -1,85 +1,70 @@
-# 🧠 한국어 공감 메시지 생성 모델 (KoGPT2 기반)
+# 🧠 Korean Empathy KoGPT2
 
-**KoGPT2** 기반의 공감 메시지 생성 모델입니다.  
-사용자가 작성한 일기와 감정 정보를 바탕으로, 상황에 어울리는 따뜻한 공감 문장을 생성합니다.
+KoGPT2 기반으로 감정 분류된 한국어 일기 데이터를 학습하여, **공감 메시지**를 생성하는 감성 AI 언어모델입니다.
 
 ---
 
-## ✅ 예시
+## 📌 모델 개요
 
-**입력**
+- **기반 모델**: [`skt/kogpt2-base-v2`](https://huggingface.co/skt/kogpt2-base-v2)
+- **학습 목적**: 감정 기반 일기 텍스트에 대해 자연스럽고 따뜻한 공감 메시지 생성
+- **학습 데이터**: 감정(`슬픔`, `행복`, `분노`, `놀람`, `공포`, `중립`, `혐오`) + 일기 + 공감 메시지 쌍  
+- **총 샘플 수**: 약 35,000개  
+- **사용 예시**: 감정 상담 봇, 정서 케어 앱, 일기 분석 툴 등에 활용 가능
 
+---
+
+## 💡 입력 형식
+
+입력 텍스트는 다음 형식을 따릅니다:
+
+```
 감정: 슬픔
-
 일기: 오늘 여자친구랑 헤어져서 너무 힘들어.
-
 공감 메시지:
-
-**출력**
-
-마음이 많이 힘들었겠네. 괜찮아, 다 지나갈 거야.
+```
 
 ---
 
-## 📌 모델 정보
-
-- **기반 모델**: `skt/kogpt2-base-v2`
-- **학습 데이터**: 감정별 5,000개씩 총 35,000개
-- **지원 감정**:
-  - 슬픔
-  - 행복
-  - 분노
-  - 공포
-  - 놀람
-  - 중립
-  - 혐오
-
-- **입력 형식**
-감정: [감정]
-일기: [사용자 작성 문장]
-공감 메시지:
-
-- **출력 형식**
-상황에 어울리는 한 문장 공감 메시지
-
-
----
-
-## 💻 사용 방법 (Python 예시)
+## 🚀 사용 방법 (Python)
 
 ```python
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
-tokenizer = AutoTokenizer.from_pretrained("dlckdfuf141/KoreanEmpathyModel")
-model = AutoModelForCausalLM.from_pretrained("dlckdfuf141/KoreanEmpathyModel").to("cuda")
+tokenizer = AutoTokenizer.from_pretrained("dlckdfuf141/empathy-kogpt2")
+model = AutoModelForCausalLM.from_pretrained("dlckdfuf141/empathy-kogpt2").to("cuda")
 
 def generate_empathy(text, emotion):
-  prompt = f"감정: {emotion}\n일기: {text}\n공감 메시지:"
-  inputs = tokenizer(prompt, return_tensors="pt").to("cuda")
-  output = model.generate(
-      **inputs,
-      max_new_tokens=60,
-      do_sample=True,
-      top_p=0.95,
-      temperature=0.8,
-      pad_token_id=tokenizer.pad_token_id,
-      eos_token_id=tokenizer.eos_token_id
-  )
-  response = tokenizer.decode(output[0], skip_special_tokens=True)
-  return response.split("공감 메시지:")[-1].strip()
+    prompt = f"감정: {emotion}\n일기: {text}\n공감 메시지:"
+    inputs = tokenizer(prompt, return_tensors="pt").to("cuda")
 
-# 사용 예시
-print(generate_empathy("오늘 너무 지치고 힘들었어.", "슬픔"))
+    outputs = model.generate(
+        **inputs,
+        max_new_tokens=60,
+        do_sample=True,
+        top_p=0.95,
+        temperature=0.8,
+        pad_token_id=tokenizer.pad_token_id,
+        eos_token_id=tokenizer.eos_token_id
+    )
+
+    result = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    return result.split("공감 메시지:")[-1].strip()
+
+# 예시 실행
+print(generate_empathy("오늘 여자친구랑 헤어져서 너무 힘들어.", "슬픔"))
 ```
-🛠️ 학습 환경
-GPU: NVIDIA RTX 4060
 
-학습 시간: 약 2시간
+---
 
-배치 크기: 2
+## 🧾 라이선스 및 사용 범위
 
-에폭 수: 3
+- 비상업적 연구 및 실험 목적의 사용을 권장합니다.
+- 모델의 응답은 완벽하지 않으며, 실제 심리 상담을 대체할 수 없습니다.
 
-최대 토큰 길이: 128
+---
 
-[<img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" height="20"/> Hugginface에서 다운로드](https://huggingface.co/dlckdfuf141/empathy-kogpt2)
+## ✍️ 제작자
+
+- GitHub: [fufckddl](https://github.com/fufckddl)
+- Hugging Face: [dlckdfuf141](https://huggingface.co/dlckdfuf141)
