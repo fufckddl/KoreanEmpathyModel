@@ -82,3 +82,4 @@ GPU: NVIDIA RTX 4060
 
 최대 토큰 길이: 128
 
+[<img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" height="20"/> Hugginface에서 다운로드](https://huggingface.co/dlckdfuf141/empathy-kogpt2)
