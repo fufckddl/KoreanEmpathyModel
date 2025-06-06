@@ -50,8 +50,8 @@
 ```python
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
-tokenizer = AutoTokenizer.from_pretrained("fufckddl/KoreanEmpathyModel")
-model = AutoModelForCausalLM.from_pretrained("fufckddl/KoreanEmpathyModel").to("cuda")
+tokenizer = AutoTokenizer.from_pretrained("dlckdfuf141/KoreanEmpathyModel")
+model = AutoModelForCausalLM.from_pretrained("dlckdfuf141/KoreanEmpathyModel").to("cuda")
 
 def generate_empathy(text, emotion):
   prompt = f"감정: {emotion}\n일기: {text}\n공감 메시지:"
